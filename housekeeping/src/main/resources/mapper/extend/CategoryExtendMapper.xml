@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuywei.housekeeping.dao.extend.CategoryExtendMapper">
+
+    <select id="selectAll" resultMap="CategoryExtendResultMap">
+        SELECT * FROM hk_category WHERE parent_id IS NULL
+    </select>
+
+    <select id="selectChildren" resultMap="com.liuywei.housekeeping.dao.CategoryMapper.BaseResultMap">
+        SELECT * FROM hk_category WHERE parent_id = #{id}
+    </select>
+
+    <resultMap id="CategoryExtendResultMap"
+               type="com.liuywei.housekeeping.domain.extend.CategoryExtend"
+               extends="com.liuywei.housekeeping.dao.CategoryMapper.BaseResultMap">
+        <id column="id" property="id"></id>
+        <collection property="categories" column="id" select="selectChildren"></collection>
+    </resultMap>
+
+</mapper>

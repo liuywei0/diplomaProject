@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql:///housekeeping?serverTimezone=UTC"
+                        userId="root"
+                        password="123456">
+        </jdbcConnection>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.liuywei.housekeeping.domain" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.liuywei.housekeeping.dao" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+<!--        <table tableName="base_role" domainObjectName="Role">-->
+<!--            &lt;!&ndash;添加属性useActualColumnNames为true,那么生成的对象字段就跟表一样&ndash;&gt;-->
+<!--            <property name="useActualColumnNames" value="true"/>-->
+<!--        </table>-->
+        <table tableName="base_user" domainObjectName="User"></table>
+        <table tableName="base_role" domainObjectName="Role"></table>
+        <table tableName="base_privilege" domainObjectName="Privilege"></table>
+        <table tableName="base_role_privilege" domainObjectName="RolePrivilege" ></table>
+        <table tableName="hk_account" domainObjectName="Account"></table>
+        <table tableName="hk_address" domainObjectName="Address"></table>
+        <table tableName="hk_category" domainObjectName="Category"></table>
+        <table tableName="hk_comment" domainObjectName="Comment"></table>
+        <table tableName="hk_order" domainObjectName="Order"></table>
+        <table tableName="hk_order_line" domainObjectName="OrderLine"></table>
+        <table tableName="hk_product" domainObjectName="Product"></table>
+    </context>
+</generatorConfiguration>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuywei.housekeeping.dao.extend.UserExtendMapper">
+
+    <select id="selectAllWithRole" resultMap="UserExtendResultMap">
+        SELECT *
+        FROM base_user
+    </select>
+
+    <select id="selectByRoleId" resultMap="com.liuywei.housekeeping.dao.UserMapper.BaseResultMap">
+        SELECT *
+        FROM base_user
+        WHERE role_id = #{id}
+    </select>
+
+    <select id="selectByTel" resultMap="UserExtendResultMap">
+        SELECT *
+        FROM base_user
+        WHERE telephone = #{telephone}
+    </select>
+
+    <resultMap id="UserExtendResultMap"
+               type="com.liuywei.housekeeping.domain.extend.UserExtend"
+               extends="com.liuywei.housekeeping.dao.UserMapper.BaseResultMap">
+        <id column="id" property="id"></id>
+        <association property="role" column="role_id"
+                     select="com.liuywei.housekeeping.dao.extend.RoleExtendMapper.selectById"></association>
+    </resultMap>
+
+</mapper>

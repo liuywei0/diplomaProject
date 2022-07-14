@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuywei.housekeeping.dao.extend.OrderExtendMapper">
+
+    <select id="query" resultMap="OrderExtendResultMap">
+        SELECT *
+        FROM hk_order
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="customerId != null">
+                customer_id = #{customerId} AND
+            </if>
+            <if test="employeeId != null">
+                employee_id = #{employeeId} AND
+            </if>
+            <if test="status != null">
+                status LIKE CONCAT("%", #{status}, "%")
+            </if>
+        </where>
+    </select>
+
+    <!--    <select id="selectAll" resultMap="OrderExtendResultMap">-->
+    <!--        SELECT *-->
+    <!--        FROM hk_order-->
+    <!--    </select>-->
+
+    <!--    <select id="selectById" resultMap="OrderExtendByIdResultMap">-->
+    <!--        SELECT o.id as o_id, o.order_time, o.total, o.status, o.customer_id, o.employee_id, o.address_id,-->
+    <!--               c.id as c_id, c.telephone as c_telephone, c.name as c_name,-->
+    <!--               e.id as e_id, e.telephone as e_telephone, e.name as e_name,-->
+    <!--               a.id as a_id, a.username, a.telephone, a.province, a.city, a.area, a.address-->
+    <!--        FROM hk_order o-->
+    <!--        LEFT JOIN base_user c-->
+    <!--        ON o.customer_id=c.id-->
+    <!--        LEFT JOIN base_user e-->
+    <!--        ON o.employee_id=e.id-->
+    <!--        LEFT JOIN hk_address a-->
+    <!--        ON o.address_id=a.id-->
+    <!--        WHERE o.id=#{id}-->
+    <!--    </select>-->
+
+    <!--    <select id="selectById" resultMap="OrderExtendResultMap">-->
+    <!--        SELECT *-->
+    <!--        FROM hk_order-->
+    <!--        WHERE id=#{id}-->
+    <!--    </select>-->
+
+    <resultMap id="OrderExtendResultMap"
+               type="com.liuywei.housekeeping.domain.extend.OrderExtend"
+               extends="com.liuywei.housekeeping.dao.OrderMapper.BaseResultMap">
+        <association property="customer" column="customer_id"
+                     select="com.liuywei.housekeeping.dao.UserMapper.selectByPrimaryKey">
+
+        </association>
+
+        <association property="employee" column="employee_id"
+                     select="com.liuywei.housekeeping.dao.UserMapper.selectByPrimaryKey">
+
+        </association>
+
+        <association property="address" column="address_id"
+                     select="com.liuywei.housekeeping.dao.AddressMapper.selectByPrimaryKey">
+
+        </association>
+
+        <collection property="orderLines" column="id"
+                    select="com.liuywei.housekeeping.dao.extend.OrderLineExtendMapper.selectByOrderId">
+
+        </collection>
+    </resultMap>
+
+    <!--    <resultMap id="OrderExtendByIdResultMap"-->
+    <!--               type="com.liuywei.housekeeping.domain.extend.OrderExtend"-->
+    <!--               extends="com.liuywei.housekeeping.dao.OrderMapper.BaseResultMap">-->
+    <!--        <result property="id" column="o_id"></result>-->
+    <!--        <association property="customer" column="customer_id" select="com.liuywei.housekeeping.dao.UserMapper.selectByPrimaryKey">-->
+
+    <!--        </association>-->
+
+    <!--        <association property="employee" column="employee_id" select="com.liuywei.housekeeping.dao.UserMapper.selectByPrimaryKey">-->
+
+    <!--        </association>-->
+
+    <!--        <association property="address" column="address_id" select="com.liuywei.housekeeping.dao.AddressMapper.selectByPrimaryKey">-->
+
+    <!--        </association>-->
+    <!--    </resultMap>-->
+
+</mapper>

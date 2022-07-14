@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuywei.housekeeping.dao.extend.ProductExtendMapper">
+
+    <select id="selectAll" resultMap="ProductExtendResultMap">
+        SELECT * FROM hk_product
+    </select>
+
+    <update id="updateByProduct" parameterType="com.liuywei.housekeeping.domain.Product">
+        update hk_product
+        set name        = #{name,jdbcType=VARCHAR},
+            price       = #{price,jdbcType=VARCHAR},
+            status      = #{status,jdbcType=VARCHAR},
+            photo       = #{photo,jdbcType=VARCHAR},
+            sales       = #{sales,jdbcType=INTEGER},
+            introduce   = #{introduce},
+            category_id = #{categoryId,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <resultMap id="ProductExtendResultMap"
+               type="com.liuywei.housekeeping.domain.extend.ProductExtend"
+               extends="com.liuywei.housekeeping.dao.ProductMapper.BaseResultMap">
+        <id column="id" property="id"></id>
+        <association property="category"
+                     column="category_id"
+                     select="com.liuywei.housekeeping.dao.CategoryMapper.selectByPrimaryKey"></association>
+    </resultMap>
+
+</mapper>

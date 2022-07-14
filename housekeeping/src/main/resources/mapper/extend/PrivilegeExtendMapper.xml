@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuywei.housekeeping.dao.extend.PrivilegeExtendMapper">
+
+    <select id="selectWithChildren" resultMap="PrivilegeExtendResultMap">
+        SELECT * FROM base_privilege WHERE parent_id IS NULL
+    </select>
+
+    <select id="selectChildren" resultMap="com.liuywei.housekeeping.dao.PrivilegeMapper.BaseResultMap">
+        SELECT * FROM base_privilege WHERE parent_id = #{id}
+    </select>
+
+    <resultMap id="PrivilegeExtendResultMap"
+               type="com.liuywei.housekeeping.domain.extend.PrivilegeExtend"
+               extends="com.liuywei.housekeeping.dao.PrivilegeMapper.BaseResultMap">
+        <collection column="id" property="privileges" select="selectChildren"></collection>
+    </resultMap>
+
+</mapper>

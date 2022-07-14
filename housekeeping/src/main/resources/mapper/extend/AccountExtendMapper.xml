@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuywei.housekeeping.dao.extend.AccountExtendMapper">
+
+    <select id="selectAllWithUser" resultMap="AccountExtendResultMap">
+        SELECT *
+        FROM hk_account
+        <where>
+            <if test="userId != null">
+                user_id=#{userId}
+            </if>
+            <if test="orderId != null">
+                order_id=#{orderId}
+            </if>
+            <if test="type != null">
+                type=#{type}
+                and transaction_time IS NULL
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="AccountExtendResultMap"
+               type="com.liuywei.housekeeping.domain.extend.AccountExtend"
+               extends="com.liuywei.housekeeping.dao.AccountMapper.BaseResultMap">
+        <association property="user" column="user_id" select="com.liuywei.housekeeping.dao.UserMapper.selectByPrimaryKey"></association>
+        <association property="order" column="order_id" select="com.liuywei.housekeeping.dao.OrderMapper.selectByPrimaryKey"></association>
+    </resultMap>
+
+</mapper>
